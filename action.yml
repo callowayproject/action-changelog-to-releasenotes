@@ -1,0 +1,30 @@
+name: "Changelog to release notes"
+description: "Extracts a section of a changelog for release notes."
+inputs:
+  target-version:
+    description: "The version heading from which to extract release notes."
+    required: true
+  changelog-name:
+    description: "The name or relative path to the changelog file."
+    required: false
+    default: "CHANGELOG.md"
+  output-filename:
+    description: "The name of the file to write the release notes."
+    required: false
+    default: "release-notes.md"
+outputs:
+  release-notes:
+    description: "The content of the release notes."
+    value: ${{ steps.get-output.outputs.release-notes }}
+runs:
+  using: "composite"
+  steps:
+    - name: Extract version content
+      id: extract-contents
+      run: extract-content.sh "${{ inputs.target-version }}" "${{ inputs.changelog-name }}" "${{ inputs.output-filename }}"
+      shell: bash
+    - name: Output
+      id: get-output
+      run: |
+        echo "release-notes=$(cat ${{ inputs.output-filename }})" >> $GITHUB_OUTPUT
+      shell: bash
