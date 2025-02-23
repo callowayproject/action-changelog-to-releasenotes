@@ -22,7 +22,7 @@ runs:
     - name: Set GitHub Path
       run: |
         echo "$GITHUB_ACTION_PATH" >> $GITHUB_PATH
-        cd /action/workspace
+        ls
       shell: bash
       env:
         GITHUB_ACTION_PATH: ${{ github.action_path }}
