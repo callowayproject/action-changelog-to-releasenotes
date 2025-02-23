@@ -12,10 +12,6 @@ inputs:
     description: "The name of the file to write the release notes."
     required: false
     default: "release-notes.md"
-outputs:
-  release-notes:
-    description: "The content of the release notes."
-    value: ${{ steps.get-output.outputs.release-notes }}
 runs:
   using: "composite"
   steps:
@@ -28,9 +24,4 @@ runs:
     - name: Extract version content
       id: extract-contents
       run: extract-content.sh "${{ inputs.target-version }}" "${{ inputs.changelog-name }}" "${{ inputs.output-filename }}"
-      shell: bash
-    - name: Output
-      id: get-output
-      run: |
-        echo "release-notes=$(cat '${{ inputs.output-filename }}')" >> $GITHUB_OUTPUT
       shell: bash
